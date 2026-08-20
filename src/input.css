@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #458ff6;
+    --color-ink: #1f1534;
+    --color-muted: #7d7987;
+
+    --shadow-card: 0 20px 45px rgba(229, 233, 246, 0.55);
+}
