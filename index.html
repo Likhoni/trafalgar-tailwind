@@ -191,18 +191,19 @@
                     <div class="mx-auto mt-5 h-1 w-14 rounded-full bg-white"></div>
                 </div>
 
+                <!-- Testimonials section -->
                 <div class="mt-12 grid items-center gap-10 lg:grid-cols-[.8fr_1.2fr]">
                     <div class="flex items-center justify-center gap-5">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Edward Newgate"
-                            class="h-24 w-24 rounded-full border-4 border-white object-cover" />
+                        <img id="testimonialImg" src="https://randomuser.me/api/portraits/women/44.jpg"
+                            alt="Edward Newgate" class="h-24 w-24 rounded-full border-4 border-white object-cover" />
                         <div>
-                            <p class="text-xl font-extrabold">Edward Newgate</p>
-                            <p class="mt-1 text-white/80">Founder Circle</p>
+                            <p id="testimonialName" class="text-xl font-extrabold">Edward Newgate</p>
+                            <p id="testimonialTitle" class="mt-1 text-white/80">Founder Circle</p>
                         </div>
                     </div>
-                    <blockquote class="text-center text-lg leading-8 text-white/90 lg:text-left">
-                        “Our service has helped me feel more confident about managing my health. The experience is
-                        simple, clear and easy to use.”
+                    <blockquote id="testimonialQuote" class="text-center text-lg leading-8 text-white/90 lg:text-left">
+                        "Our service has helped me feel more confident about managing my health. The experience is
+                        simple, clear and easy to use."
                     </blockquote>
                 </div>
 
@@ -210,11 +211,7 @@
                     <button id="prev"
                         class="grid h-10 w-10 place-items-center rounded-full border border-white/40 hover:bg-white/10"
                         aria-label="Previous testimonial">←</button>
-                    <div class="flex gap-2">
-                        <span class="h-2.5 w-2.5 rounded-full bg-white"></span>
-                        <span class="h-2.5 w-2.5 rounded-full bg-white/40"></span>
-                        <span class="h-2.5 w-2.5 rounded-full bg-white/40"></span>
-                    </div>
+                    <div id="dots" class="flex gap-2"></div>
                     <button id="next"
                         class="grid h-10 w-10 place-items-center rounded-full border border-white/40 hover:bg-white/10"
                         aria-label="Next testimonial">→</button>
@@ -338,6 +335,72 @@
                 if (window.innerWidth < 1024) navLinks.classList.add("hidden");
             });
         });
+
+        const testimonials = [
+            {
+                name: "Edward Newgate",
+                title: "Founder Circle",
+                quote: "Our service has helped me feel more confident about managing my health. The experience is simple, clear and easy to use.",
+                img: "https://randomuser.me/api/portraits/women/44.jpg"
+            },
+            {
+                name: "Nico Robin",
+                title: "Marketing Lead",
+                quote: "Booking an appointment used to take forever. Now I can consult a doctor in minutes, right from my phone.",
+                img: "https://randomuser.me/api/portraits/women/68.jpg"
+            },
+            {
+                name: "Trafalgar Law",
+                title: "Product Manager",
+                quote: "The pharmacy delivery feature is a lifesaver. I get my medicines on time, every time.",
+                img: "https://randomuser.me/api/portraits/men/32.jpg"
+            }
+        ];
+
+        let currentIndex = 0;
+
+        const testimonialImg = document.getElementById("testimonialImg");
+        const testimonialName = document.getElementById("testimonialName");
+        const testimonialTitle = document.getElementById("testimonialTitle");
+        const testimonialQuote = document.getElementById("testimonialQuote");
+        const dotsContainer = document.getElementById("dots");
+        const prevBtn = document.getElementById("prev");
+        const nextBtn = document.getElementById("next");
+
+        function renderDots() {
+            dotsContainer.innerHTML = "";
+            testimonials.forEach((_, i) => {
+                const dot = document.createElement("span");
+                dot.className = `h-2.5 w-2.5 rounded-full cursor-pointer ${i === currentIndex ? "bg-white" : "bg-white/40"}`;
+                dot.addEventListener("click", () => {
+                    currentIndex = i;
+                    updateTestimonial();
+                });
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function updateTestimonial() {
+            const t = testimonials[currentIndex];
+            testimonialImg.src = t.img;
+            testimonialImg.alt = t.name;
+            testimonialName.textContent = t.name;
+            testimonialTitle.textContent = t.title;
+            testimonialQuote.textContent = `"${t.quote}"`;
+            renderDots();
+        }
+
+        prevBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+            updateTestimonial();
+        });
+
+        nextBtn.addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % testimonials.length;
+            updateTestimonial();
+        });
+
+        renderDots();
     </script>
 </body>
 
